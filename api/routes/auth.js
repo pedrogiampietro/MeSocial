@@ -23,4 +23,21 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+router.post('/signin', async (req, res) => {
+  const { body } = req;
+  const { email, password } = body;
+
+  try {
+    const user = await User.findOne({ email });
+    !user && res.status(404).send('user not found.');
+
+    const validPassword = await bcrypt.compare(password, user.password);
+    !validPassword && res.status(400).json('wong password, try again.');
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 module.exports = router;
