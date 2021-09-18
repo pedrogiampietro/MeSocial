@@ -19,7 +19,7 @@ router.post('/signup', async (req, res) => {
     const user = await newUser.save();
     res.status(200).json(user);
   } catch (err) {
-    console.error(err);
+    res.status(500).json(err);
   }
 });
 
@@ -36,7 +36,7 @@ router.post('/signin', async (req, res) => {
 
     res.status(200).json(user);
   } catch (err) {
-    console.error(err);
+    res.status(500).json(err);
   }
 });
 
