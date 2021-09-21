@@ -100,5 +100,36 @@ router.put('/:id/follow', async (req, res) => {
 });
 
 //unfollow a user;
+router.put('/:id/unfollow', async (req, res) => {
+  const { body, params } = req;
+  const { userId } = body;
+  const { id } = params;
+
+  if (userId !== id) {
+    try {
+      const user = await User.findById(id);
+      const currentUser = await User.findById(userId);
+
+      if (user.followers.includes(userId)) {
+        await user.updateOne({
+          $pull: { followers: userId },
+        });
+
+        await currentUser.updateOne({
+          $pull: {
+            followings: id,
+          },
+        });
+        res.status(200).json('user has been unfollowed.');
+      } else {
+        res.status(403).json('you dont follow this user.');
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(403).json('you cant unfollow yourself.');
+  }
+});
 
 module.exports = router;
