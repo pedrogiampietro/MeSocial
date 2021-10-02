@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Profile } from './pages/Profile';
 import { Login } from './pages/Login';
@@ -8,16 +8,16 @@ export function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path='/'>
+        <Route exact path="/">
           <Home />
         </Route>
-        <Route path='/login'>
+        <Route path="/login">
           <Login />
         </Route>
-        <Route path='/register'>
+        <Route path="/register">
           <Register />
         </Route>
-        <Route path='/profile/:username'>
+        <Route path="/profile/:username">
           <Profile />
         </Route>
       </Switch>

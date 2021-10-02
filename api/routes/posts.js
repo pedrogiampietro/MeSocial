@@ -78,7 +78,7 @@ router.put('/:id/like', async (req, res) => {
 //get a post
 router.get('/:id', async (req, res) => {
   try {
-    const { body, params } = req;
+    const { params } = req;
     const { id } = params;
 
     const post = await Post.findById(id);
@@ -89,10 +89,10 @@ router.get('/:id', async (req, res) => {
 });
 
 //get all posts timeline.
-router.get('/timeline/all', async (req, res) => {
+router.get('/timeline/:userId', async (req, res) => {
   try {
-    const { body, params } = req;
-    const { userId } = body;
+    const { params } = req;
+    const { userId } = params;
 
     const currentUser = await User.findById(userId);
     const userPosts = await Post.find({ userId: currentUser._id });
@@ -101,7 +101,22 @@ router.get('/timeline/all', async (req, res) => {
         return Post.find({ userId: friendId });
       })
     );
-    res.json(userPosts.concat(...friendPosts));
+    res.status(200).json(userPosts.concat(...friendPosts));
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//get user's all posts
+router.get('/profile/:username', async (req, res) => {
+  try {
+    const { params } = req;
+    const { username } = params;
+
+    const user = await User.findOne({ username: username });
+    const posts = await Post.find({ uesrId: user._id });
+
+    res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
   }
