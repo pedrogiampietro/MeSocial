@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 
-import { Post } from '../Post/';
 import { Share } from '../Share';
+import { Post } from '../Post/';
 
 import './styles.css';
 
